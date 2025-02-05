@@ -3,7 +3,7 @@ import TaskCard from "@/app/items/TaskCard";
 import { RootState } from "@/app/Redux/Store";
 import React from "react";
 import { CiSearch } from "react-icons/ci";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Tasks: React.FC = () => {
  

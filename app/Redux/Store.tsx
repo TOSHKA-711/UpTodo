@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import DialogSlice from "./Slices/DialogsSlice";
 import TasksSlice from "./Slices/TasksSlice";
 import OneTaskSlice from "./Slices/OneTaskSlice";
