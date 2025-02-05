@@ -77,7 +77,7 @@ export default function TaskCardDialog({
           "& .MuiPaper-root": { margin: "15px" },
         }}
       >
-        <DialogTitle className="bg-[#363636] text-zinc-300 text-lg">
+        <DialogTitle className="bg-[#363636] text-zinc-300 text-lg whitespace-normal break-words">
           {description}
         </DialogTitle>
         <DialogContent
