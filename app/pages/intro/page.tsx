@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Swiper as SwiperCore } from "swiper/types";
+import { Swiper as SwiperCore } from 'swiper'; // إصلاح الاستيراد
 import { Navigation, Pagination, A11y } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -15,7 +15,6 @@ import Link from "next/link";
 const IndexIntroPage: React.FC = () => {
   const prevButtonRef = useRef<HTMLButtonElement>(null);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
-  const [swiperInstance, setSwiperInstance] = useState<SwiperCore | null>(null);
   const [isLastSlide, setIsLastSlide] = useState(false);
 
   const handleSlideChange = (swiper: SwiperCore) => {
@@ -35,11 +34,14 @@ const IndexIntroPage: React.FC = () => {
           nextEl: nextButtonRef.current,
         }}
         // pagination={{ clickable: true }}
-        onSwiper={(swiper: SwiperCore) => setSwiperInstance(swiper)}
+        onSwiper={(swiper) => console.log(swiper)} // No need to store swiperInstance anymore
         onSlideChange={handleSlideChange}
         className=" h-screen pb-64 "
       >
-        <Link href="/pages/auth" className="absolute top-8 left-8 cursor-pointer text-zinc-500 z-[1] ">
+        <Link
+          href="/pages/auth"
+          className="absolute top-8 left-8 cursor-pointer text-zinc-500 z-[1] "
+        >
           Skip
         </Link>
 
@@ -69,7 +71,9 @@ const IndexIntroPage: React.FC = () => {
               priority // Optional: to optimize loading
             />
 
-            <h1 className="text-[2.5rem] max-sm:text-3xl">MCreate daily routine</h1>
+            <h1 className="text-[2.5rem] max-sm:text-3xl">
+              MCreate daily routine
+            </h1>
             <p className="text-lg text-zinc-500 max-sm:text-sm max-sm:w-80 text-center">
               In Uptodo you can create your personalized routine to stay
               productive
@@ -86,7 +90,9 @@ const IndexIntroPage: React.FC = () => {
               priority // Optional: to optimize loading
             />
 
-            <h1 className="text-[2.5rem] max-sm:text-3xl">Orgonaize your tasks</h1>
+            <h1 className="text-[2.5rem] max-sm:text-3xl">
+              Orgonaize your tasks
+            </h1>
             <p className="text-lg text-zinc-500 max-sm:text-sm max-sm:w-80 text-center">
               You can organize your daily tasks by adding your tasks into
               separate categories

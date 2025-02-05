@@ -1,4 +1,5 @@
 import OR from "@/app/items/OR";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -48,14 +49,14 @@ const SignUp = () => {
         href=""
         className=" bg-inherit  hover:bg-[#8687E7]  duration-300 border-2 border-[#8875FF] p-2 text-center w-64 flex items-center justify-center gap-2 "
       >
-        <img src="/google.png" alt="google"/>
+        <Image src="/google.png" alt="google" width={30} height={50}/>
         Register with Google
       </Link>
       <Link
         href=""
         className=" bg-inherit  hover:bg-[#8687E7]  duration-300 border-2 border-[#8875FF] p-2 text-center w-64 flex items-center justify-center gap-2 "
       >
-        <img src="/apple.png" alt="apple"/>
+        <Image src="/apple.png" alt="apple" width={30} height={50}/>
         Register with Apple
       </Link>
      </div>

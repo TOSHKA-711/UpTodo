@@ -16,15 +16,15 @@ import { useDispatch } from "react-redux";
 import { removeTask } from "../Redux/Slices/TasksSlice";
 import Swal from "sweetalert2";
 
+// Typing the Transition component properly
 const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & {
-    children: React.ReactElement<any, any>;
-  },
+  props: TransitionProps & { children: React.ReactElement }, // Fixing the type of children
   ref: React.Ref<unknown>
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+// Define the types for the props passed into the TaskCardDialog component
 interface Props {
   description: string;
   open: boolean;
@@ -32,7 +32,7 @@ interface Props {
   date: string;
   priority: number;
   index: number;
-  setClose: (value: boolean) => void;
+  setClose: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function TaskCardDialog({
@@ -44,7 +44,11 @@ export default function TaskCardDialog({
   open,
   setClose,
 }: Props) {
-  const showAlert = () => {
+  const dispatch = useDispatch();
+
+  // Delete task handler
+  const handleDeleteTask = () => {
+    dispatch(removeTask(index)); // Dispatch the removeTask action
     Swal.fire({
       title: "Success!",
       text: "Task Deleted successfully.",
@@ -55,22 +59,17 @@ export default function TaskCardDialog({
       color: "#F8FAFC ",
       confirmButtonColor: "#8875FF",
     });
+    setClose(false); // Close the dialog
   };
 
-  const handleDeleteTask = () => {
-    dispatch(removeTask(index));
-    showAlert();
-  };
-  const dispatch = useDispatch();
   return (
     <React.Fragment>
       <Dialog
         open={open}
         TransitionComponent={Transition}
         keepMounted
-        onClose={() => setClose(false)}
+        onClose={() => setClose(false)} // Close the dialog when clicked outside
         aria-describedby="alert-dialog-slide-description"
-        className={" "}
         sx={{
           "& .MuiDialogContent-root": {
             padding: "20px 0px",
@@ -78,14 +77,13 @@ export default function TaskCardDialog({
           "& .MuiPaper-root": { margin: "15px" },
         }}
       >
-        <DialogTitle className={"bg-[#363636] text-zinc-300 text-lg  "}>
+        <DialogTitle className="bg-[#363636] text-zinc-300 text-lg">
           {description}
         </DialogTitle>
         <DialogContent
-          className={"bg-[#363636] min-w-80"}
+          className="bg-[#363636] min-w-80"
           sx={{
             color: "#fff",
-
             "& .MuiDialogContentText-root": {
               fontSize: "22px !important",
             },
@@ -93,25 +91,25 @@ export default function TaskCardDialog({
         >
           <span className="flex flex-row items-center gap-2 p-2 text-lg">
             <LuClock4 />
-            <p>Task Time : {time} </p>
+            <p>Task Time : {time}</p>
           </span>
           <span className="flex flex-row items-center gap-2 p-2 text-lg">
             <CiCalendarDate />
-            <p>Task Date : {date} </p>
+            <p>Task Date : {date}</p>
           </span>
           <span className="flex flex-row items-center gap-2 p-2 text-lg">
             <CiFlag1 />
-            <p>Task Priority : {priority} </p>
+            <p>Task Priority : {priority}</p>
           </span>
           <span
             className="flex flex-row items-center gap-2 p-2 text-lg text-[#FF4949] cursor-pointer"
-            onClick={() => handleDeleteTask()}
+            onClick={handleDeleteTask} // Handle delete click
           >
             <MdDeleteOutline />
             <p>Delete Task</p>
           </span>
         </DialogContent>
-        <DialogActions className={"bg-[#363636] text-white"}>
+        <DialogActions className="bg-[#363636] text-white">
           <Button onClick={() => setClose(false)} sx={{ color: "#8875FF" }}>
             Cancel
           </Button>

@@ -14,12 +14,10 @@ import { closeDialogs } from "../Redux/Slices/DialogsSlice";
 import { setPriority } from "../Redux/Slices/OneTaskSlice";
 import { addTask } from "../Redux/Slices/TasksSlice";
 
-const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & {
-    children: React.ReactElement<any, any>;
-  },
-  ref: React.Ref<unknown>
-) {
+const Transition = React.forwardRef<
+  unknown,
+  TransitionProps & { children: React.ReactElement }
+>(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
@@ -30,12 +28,14 @@ export default function PriorityDialog() {
 
   const PriorityItems = Array.from({ length: 10 }, (_, i) => i + 1);
 
-
-  const handleAddTask =(e:React.MouseEvent<HTMLSpanElement> , item : number)=>{
-    dispatch(setPriority(item))
-    dispatch(addTask(TaskState))
-    dispatch(closeDialogs())
-  }
+  const handleAddTask = (
+    e: React.MouseEvent<HTMLSpanElement>,
+    item: number
+  ) => {
+    dispatch(setPriority(item)); // Setting the priority
+    dispatch(addTask(TaskState)); // Adding the task
+    dispatch(closeDialogs()); // Closing the dialog
+  };
 
   return (
     <React.Fragment>
@@ -45,21 +45,15 @@ export default function PriorityDialog() {
         keepMounted
         onClose={() => dispatch(closeDialogs())}
         aria-describedby="alert-dialog-slide-description"
-        className={" flex flex-col items-center justify-center gap-4"}
+        className="flex flex-col items-center justify-center gap-4"
       >
-        <DialogTitle
-          className={
-            "bg-[#363636] text-white text-center border-b-zinc-500 border-b-2"
-          }
-        >
+        <DialogTitle className="bg-[#363636] text-white text-center border-b-zinc-500 border-b-2">
           {"Task Priority"}
         </DialogTitle>
-        <DialogContent className={"bg-[#363636]"}>
+        <DialogContent className="bg-[#363636]">
           <DialogContentText
             id="alert-dialog-slide-description"
-            className={
-              "bg-[#363636] flex flex-row items-center justify-center flex-wrap max-w-xs gap-2 gap-y-3  pt-5"
-            }
+            className="bg-[#363636] flex flex-row items-center justify-center flex-wrap max-w-xs gap-2 gap-y-3 pt-5"
             sx={{
               color: "#fff",
             }}
@@ -68,7 +62,7 @@ export default function PriorityDialog() {
               <span
                 key={item}
                 className="bg-[#272727] flex flex-col justify-center items-center w-10 px-8 pt-2 gap-1 rounded-lg hover:bg-[#8875FF] duration-300 cursor-pointer"
-                onClick={(e)=>handleAddTask(e,item)}
+                onClick={(e) => handleAddTask(e, item)}
               >
                 <FaFontAwesomeFlag />
                 {item}
