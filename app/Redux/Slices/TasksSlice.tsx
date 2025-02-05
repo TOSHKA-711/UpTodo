@@ -11,8 +11,11 @@ interface Task {
 
 // Load tasks from localStorage if they exist
 const loadTasks = (): Task[] => {
-  const savedTasks = localStorage.getItem("tasks");
-  return savedTasks ? JSON.parse(savedTasks) : [];
+  if (typeof window !== 'undefined') {
+    const savedTasks = localStorage.getItem("tasks");
+    return savedTasks ? JSON.parse(savedTasks) : [];
+  }
+  return []; // Return empty array if running on server
 };
 
 const initialState: Task[] = loadTasks();
@@ -23,16 +26,22 @@ const TasksSlice = createSlice({
   reducers: {
     addTask: (state, action: PayloadAction<Task>) => {
       state.push(action.payload);
-      localStorage.setItem("tasks", JSON.stringify(state)); 
+      if (typeof window !== 'undefined') {
+        localStorage.setItem("tasks", JSON.stringify(state));
+      }
     },
     removeTask: (state, action: PayloadAction<number>) => {
       const updatedTasks = state.filter((_, index) => index !== action.payload);
-      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+      if (typeof window !== 'undefined') {
+        localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+      }
       return updatedTasks;
     },
     toggleTaskStatus: (state, action: PayloadAction<number>) => {
       state[action.payload].isDone = !state[action.payload].isDone;
-      localStorage.setItem("tasks", JSON.stringify(state));
+      if (typeof window !== 'undefined') {
+        localStorage.setItem("tasks", JSON.stringify(state));
+      }
     },
   },
 });
