@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperCore } from 'swiper'; // إصلاح الاستيراد
 import { Navigation, Pagination, A11y } from "swiper/modules";
@@ -16,6 +16,7 @@ const IndexIntroPage: React.FC = () => {
   const prevButtonRef = useRef<HTMLButtonElement>(null);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
   const [isLastSlide, setIsLastSlide] = useState(false);
+  const [swiperInstance, setSwiperInstance] = useState<SwiperCore | null>(null);
 
   const handleSlideChange = (swiper: SwiperCore) => {
     // Check if the current slide is the last one
@@ -23,30 +24,35 @@ const IndexIntroPage: React.FC = () => {
     console.log(swiper.activeIndex);
   };
 
+  useEffect(() => {
+    if (swiperInstance && prevButtonRef.current && nextButtonRef.current) {
+      swiperInstance.navigation.update(); // Ensure navigation works after references are set
+    }
+  }, [swiperInstance]);
+
   return (
     <div className="relative">
       <Swiper
         modules={[Navigation, Pagination, A11y]}
         spaceBetween={50}
         slidesPerView={1}
+        onSwiper={setSwiperInstance} // Store swiper instance in state
+        onSlideChange={handleSlideChange}
+        className="h-screen pb-64"
         navigation={{
           prevEl: prevButtonRef.current,
           nextEl: nextButtonRef.current,
         }}
-        // pagination={{ clickable: true }}
-        onSwiper={(swiper) => console.log(swiper)} // No need to store swiperInstance anymore
-        onSlideChange={handleSlideChange}
-        className=" h-screen pb-64 "
       >
         <Link
           href="/pages/auth"
-          className="absolute top-8 left-8 cursor-pointer text-zinc-500 z-[1] "
+          className="absolute top-8 left-8 cursor-pointer text-zinc-500 z-[1]"
         >
           Skip
         </Link>
 
         <SwiperSlide>
-          <div className=" h-full flex flex-col items-center justify-center gap-[30px] max-sm:gap-5 pb-8 ">
+          <div className="h-full flex flex-col items-center justify-center gap-[30px] max-sm:gap-5 pb-8">
             <Image
               src="/intro1.png"
               alt="intro1"
@@ -62,7 +68,7 @@ const IndexIntroPage: React.FC = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className=" h-full flex flex-col items-center justify-center gap-[30px] pb-8 ">
+          <div className="h-full flex flex-col items-center justify-center gap-[30px] pb-8">
             <Image
               src="/intro2.png"
               alt="intro1"
@@ -72,16 +78,15 @@ const IndexIntroPage: React.FC = () => {
             />
 
             <h1 className="text-[2.5rem] max-sm:text-3xl">
-              MCreate daily routine
+              Create daily routine
             </h1>
             <p className="text-lg text-zinc-500 max-sm:text-sm max-sm:w-80 text-center">
-              In Uptodo you can create your personalized routine to stay
-              productive
+              In Uptodo you can create your personalized routine to stay productive
             </p>
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className=" h-full flex flex-col items-center justify-center gap-[30px] pb-8 ">
+          <div className="h-full flex flex-col items-center justify-center gap-[30px] pb-8">
             <Image
               src="/intro3.png"
               alt="intro1"
@@ -91,11 +96,10 @@ const IndexIntroPage: React.FC = () => {
             />
 
             <h1 className="text-[2.5rem] max-sm:text-3xl">
-              Orgonaize your tasks
+              Organize your tasks
             </h1>
             <p className="text-lg text-zinc-500 max-sm:text-sm max-sm:w-80 text-center">
-              You can organize your daily tasks by adding your tasks into
-              separate categories
+              You can organize your daily tasks by adding your tasks into separate categories
             </p>
           </div>
         </SwiperSlide>
@@ -105,7 +109,7 @@ const IndexIntroPage: React.FC = () => {
       <button
         ref={prevButtonRef}
         aria-label="Previous Slide"
-        className="absolute top-[90%] left-[30px] translate-y-[-50%] z-10 text-white border-none px-[25px] py-[10px] cursor-pointer outline-none "
+        className="absolute top-[90%] left-[30px] translate-y-[-50%] z-10 text-white border-none px-[25px] py-[10px] cursor-pointer outline-none"
       >
         Back
       </button>
@@ -113,14 +117,14 @@ const IndexIntroPage: React.FC = () => {
         <button
           ref={nextButtonRef}
           aria-label="Next Slide"
-          className="absolute top-[90%] right-[30px] translate-y-[-50%] z-10 bg-[#8875FF]  text-white border-none px-[25px] py-[10px] cursor-pointer outline-none "
+          className="absolute top-[90%] right-[30px] translate-y-[-50%] z-10 bg-[#8875FF] text-white border-none px-[25px] py-[10px] cursor-pointer outline-none"
         >
           Next
         </button>
       ) : (
         <Link
           href="/pages/auth"
-          className="absolute top-[90%] right-[30px] translate-y-[-50%] z-10 bg-[#8875FF]  text-white border-none px-[25px] py-[10px] cursor-pointer outline-none "
+          className="absolute top-[90%] right-[30px] translate-y-[-50%] z-10 bg-[#8875FF] text-white border-none px-[25px] py-[10px] cursor-pointer outline-none"
         >
           Finish
         </Link>
